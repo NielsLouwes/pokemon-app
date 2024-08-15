@@ -66,6 +66,8 @@ export default function Home() {
     }
   }, [data]);
 
+  console.log("pokemonData", pokemonData);
+
   return (
     <main className="flex gap-4 max-w-full flex-wrap">
       {pokemonData.map((pokemon) => (
