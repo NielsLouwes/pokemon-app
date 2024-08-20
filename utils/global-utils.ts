@@ -17,10 +17,10 @@ export type PokemonType =
   | "ice"
   | "dragon";
 
-export const capitaliseFirstLetter = (pokemon: Pokemon) => {
-  if (!pokemon) return;
+export const capitaliseFirstLetter = (name: string) => {
+  if (!name) return;
 
-  return pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+  return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
 export const backgroundConfig: Record<PokemonType, string> = {
