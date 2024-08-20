@@ -1,6 +1,7 @@
 "use client";
 import PokemonCard from "@/components/PokemonCard";
-import { use, useEffect, useState } from "react";
+import PokemonFilter from "@/components/PokemonFilter";
+import { useEffect, useState } from "react";
 
 type Pokemon = {
   name: string;
@@ -27,7 +28,7 @@ export default function Home() {
   async function fetchData() {
     try {
       const response = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=151",
+        "https://pokeapi.co/api/v2/pokemon?limit=60",
         { cache: "force-cache" }
       );
       if (!response.ok) {
@@ -68,13 +69,16 @@ export default function Home() {
     }
   }, [data]);
 
-  console.log("pokemonData", pokemonData);
-
   return (
-    <main className="flex gap-4 max-w-full flex-wrap">
-      {pokemonData.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon} />
-      ))}
+    <main>
+      <div className="mb-6">
+        <PokemonFilter />
+      </div>
+      <div className="flex gap-4 max-w-full flex-wrap">
+        {pokemonData.map((pokemon) => (
+          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+        ))}
+      </div>
     </main>
   );
 }
