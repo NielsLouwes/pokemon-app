@@ -1,6 +1,7 @@
 import { backgroundConfig, capitaliseFirstLetter } from "@/utils/global-utils";
 import Image from "next/image";
 import React from "react";
+import PokemonType from "./PokemonType";
 
 //type name number
 
@@ -31,11 +32,15 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
         width={400}
         height={400}
       />
-      <p>{pokemonName}</p>
-      <p>#00{pokemon.id}</p>
-      {pokemon.types.map((type) => (
-        <p key={type.slot}>{type.type.name}</p>
-      ))}
+      <div className="p-4">
+        <p className="text-slate-50 text-4xl pb-2 font-bold">{pokemonName}</p>
+        <p className="text-slate-50 font-bold">#00{pokemon.id}</p>
+        <div className="flex gap-2 pt-4">
+          {pokemon.types.map((type) => (
+            <PokemonType key={type.slot} type={type} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

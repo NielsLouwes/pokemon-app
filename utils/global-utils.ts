@@ -40,3 +40,22 @@ export const backgroundConfig: Record<PokemonType, string> = {
   ice: "bg-cyan-200",
   dragon: "bg-yellow-700",
 };
+
+export const pokemonPillConfig = {
+  grass: "bg-green-200",
+  fire: "bg-red-200",
+  water: "bg-blue-200",
+  bug: "bg-orange-100",
+  normal: "bg-neutral-500",
+  poison: "bg-green-700",
+  electric: "bg-yellow-200",
+  ground: "bg-stone-200",
+  fairy: "bg-emerald-100",
+  fighting: "bg-teal-200",
+  psychic: "bg-violet-400",
+  rock: "bg-neutral-200",
+  ghost: "bg-teal-100	",
+  ice: "bg-cyan-100",
+  dragon: "bg-yellow-300",
+  flying: "bg-blue-200",
+};
