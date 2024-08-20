@@ -5,6 +5,7 @@ import { use, useEffect, useState } from "react";
 type Pokemon = {
   name: string;
   url: string;
+  id: number;
 };
 
 type PokemonData = {
@@ -26,7 +27,8 @@ export default function Home() {
   async function fetchData() {
     try {
       const response = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=151"
+        "https://pokeapi.co/api/v2/pokemon?limit=151",
+        { cache: "force-cache" }
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -49,7 +51,7 @@ export default function Home() {
             return res.json();
           })
         );
-        setPokemonData(fetchedAdditionalData);
+        setPokemonData(fetchedAdditionalData as any);
       } catch (err) {
         console.error(err);
       }

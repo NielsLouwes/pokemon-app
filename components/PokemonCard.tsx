@@ -19,12 +19,12 @@ export type Pokemon = {
 const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
   const pokemonName = capitaliseFirstLetter(pokemon);
   const pokemonMainType = pokemon.types[0].type.name;
-  const backgroundColor =
+  const coloredBackgroundColor =
     backgroundConfig[pokemonMainType as keyof typeof backgroundConfig];
 
   return (
     <div
-      className={`mt-12 border-solid border-2  flex flex-col w-32 rounded-lg ${backgroundColor} p-2 w-40 lg:w-80`}
+      className={`border-solid border-2 flex flex-col w-32 rounded-lg ${coloredBackgroundColor} p-2 w-40 lg:w-80`}
     >
       <Image
         src={pokemon.sprites.front_default}
@@ -34,9 +34,8 @@ const PokemonCard = ({ pokemon }: { pokemon: Pokemon }) => {
       />
       <p>{pokemonName}</p>
       <p># {pokemon.id}</p>
-      <p>{pokemonMainType}</p>
       {pokemon.types.map((type) => (
-        <p key={type.slot}>{type.name}</p>
+        <p key={type.slot}>{type.type.name}</p>
       ))}
     </div>
   );
