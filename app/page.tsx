@@ -69,8 +69,23 @@ export default function Home() {
     }
   }, [data]);
 
+  const filteredPokemon = () => {
+    const x = pokemonData.filter(
+      (pokemon) => pokemon?.types[0].type.name === "grass"
+    );
+    console.log("x", x);
+
+    return x;
+  };
+
+  filteredPokemon();
+
   return (
     <main>
+      <form className="my-6 border flex w-[85%] justify-between p-2 rounded-lg">
+        <input className="w-[98%]" type="text" placeholder="enter something" />
+        <button className="bg-amber-500 px-2 rounded-lg ml-8">Search</button>
+      </form>
       <div className="mb-6">
         <PokemonFilter />
       </div>

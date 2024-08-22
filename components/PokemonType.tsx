@@ -6,7 +6,11 @@ type Type = {
   type: { name: string; url: string };
 };
 
-const PokemonType = ({ type }: { type: Type }) => {
+type PokemonTypeProps = {
+  type: Type;
+};
+
+const PokemonType = ({ type }: PokemonTypeProps) => {
   const pokemonType = type.type.name;
 
   const pillBackgroundColor =

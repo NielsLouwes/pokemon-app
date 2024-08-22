@@ -49,7 +49,7 @@ export const pokemonPillConfig = {
   normal: "bg-neutral-500",
   poison: "bg-green-700",
   electric: "bg-yellow-200",
-  ground: "bg-stone-200",
+  ground: "bg-orange-900",
   fairy: "bg-emerald-100",
   fighting: "bg-teal-200",
   psychic: "bg-violet-400",
