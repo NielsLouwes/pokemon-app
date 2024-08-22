@@ -19,6 +19,7 @@ type PokemonData = {
 export default function Home() {
   const [data, setData] = useState<PokemonData | undefined>();
   const [pokemonData, setPokemonData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -53,6 +54,7 @@ export default function Home() {
           })
         );
         setPokemonData(fetchedAdditionalData as any);
+        setFilteredData(fetchedAdditionalData as any);
       } catch (err) {
         console.error(err);
       }
@@ -69,16 +71,17 @@ export default function Home() {
     }
   }, [data]);
 
-  const filteredPokemon = () => {
-    const x = pokemonData.filter(
-      (pokemon) => pokemon?.types[0].type.name === "grass"
-    );
-    console.log("x", x);
+  const filteredPokemon = (type: string) => {
+    if (type === "") {
+      setFilteredData(pokemonData);
+    } else {
+      const filtered = pokemonData.filter(
+        (pokemon) => pokemon?.types[0].type.name === type
+      );
 
-    return x;
+      setFilteredData(filtered);
+    }
   };
-
-  filteredPokemon();
 
   return (
     <main>
@@ -87,10 +90,10 @@ export default function Home() {
         <button className="bg-amber-500 px-2 rounded-lg ml-8">Search</button>
       </form>
       <div className="mb-6">
-        <PokemonFilter />
+        <PokemonFilter filteredPokemon={filteredPokemon} />
       </div>
       <div className="flex gap-4 max-w-full flex-wrap">
-        {pokemonData.map((pokemon) => (
+        {filteredData.map((pokemon) => (
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}
       </div>
