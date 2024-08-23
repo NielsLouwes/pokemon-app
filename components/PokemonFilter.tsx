@@ -1,25 +1,24 @@
 import { backgroundConfig } from "@/utils/global-utils";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Pokemon } from "./PokemonCard";
 
 type PokemonFilterProps = {
-  filteredPokemon: (type: string) => void;
+  setSelectedType: Dispatch<SetStateAction<string>>;
 };
 
-const PokemonFilter = ({ filteredPokemon }: PokemonFilterProps) => {
+const PokemonFilter = ({ setSelectedType }: PokemonFilterProps) => {
   const filterOptions = Object.keys(backgroundConfig);
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("event.target.value", event.target.value);
-    filteredPokemon(event.target.value);
-  };
 
   return (
     <div>
       <label className="pr-4" htmlFor="pokemon-types">
         Filter by Type
       </label>
-      <select name="pokemon-types" id="pokemon-types" onChange={handleChange}>
+      <select
+        name="pokemon-types"
+        id="pokemon-types"
+        onChange={(event) => setSelectedType(event.target.value)}
+      >
         <option value="">All</option>
         {filterOptions.map((filter) => (
           <option value={filter} key={filter}>

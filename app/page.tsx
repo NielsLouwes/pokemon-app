@@ -1,7 +1,7 @@
 "use client";
 import PokemonCard from "@/components/PokemonCard";
 import PokemonFilter from "@/components/PokemonFilter";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Pokemon = {
   name: string;
@@ -19,11 +19,9 @@ type PokemonData = {
 export default function Home() {
   const [data, setData] = useState<PokemonData | undefined>();
   const [pokemonData, setPokemonData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-
-  const pokemonInfo = data?.results.map((pokemon) => pokemon.url); // returns the urls of all pokemon for more info
 
   // TODO: MOVE INTO OWN FUNCTION AND CALL SERVER SIDE
   async function fetchData() {
@@ -35,8 +33,16 @@ export default function Home() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const pokemonData = await response.json();
-      setData(pokemonData);
+      const data: PokemonData = await response.json();
+
+      const fetchedAdditionalData = await Promise.all(
+        data.results.map(async (pokemon) => {
+          const res = await fetch(pokemon.url);
+          return res.json();
+        })
+      );
+
+      setPokemonData(fetchedAdditionalData as any);
     } catch (err) {
       setError(err instanceof Error ? err : new Error("An error occurred"));
     } finally {
@@ -44,44 +50,19 @@ export default function Home() {
     }
   }
 
-  const getPokemonInformation = async () => {
-    if (pokemonInfo) {
-      try {
-        const fetchedAdditionalData = await Promise.all(
-          pokemonInfo.map(async (pokemonUrl) => {
-            const res = await fetch(pokemonUrl);
-            return res.json();
-          })
-        );
-        setPokemonData(fetchedAdditionalData as any);
-        setFilteredData(fetchedAdditionalData as any);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      getPokemonInformation();
-    }
-  }, [data]);
-
-  const filteredPokemon = (type: string) => {
-    if (type === "") {
-      setFilteredData(pokemonData);
+  const pokemonList = useMemo(() => {
+    if (selectedType === "") {
+      return pokemonData;
     } else {
-      const filtered = pokemonData.filter(
-        (pokemon) => pokemon?.types[0].type.name === type
+      return pokemonData.filter(
+        (pokemon) => pokemon?.types[0].type.name === selectedType
       );
-
-      setFilteredData(filtered);
     }
-  };
+  }, [selectedType, pokemonData]);
 
   return (
     <main>
@@ -90,10 +71,10 @@ export default function Home() {
         <button className="bg-amber-500 px-2 rounded-lg ml-8">Search</button>
       </form>
       <div className="mb-6">
-        <PokemonFilter filteredPokemon={filteredPokemon} />
+        <PokemonFilter setSelectedType={setSelectedType} />
       </div>
       <div className="flex gap-4 max-w-full flex-wrap">
-        {filteredData.map((pokemon) => (
+        {pokemonList.map((pokemon) => (
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}
       </div>
