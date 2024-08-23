@@ -1,7 +1,7 @@
 import { capitaliseFirstLetter, pokemonPillConfig } from "@/utils/global-utils";
 import React from "react";
 
-type Type = {
+export type Type = {
   slot: number;
   type: { name: string; url: string };
 };

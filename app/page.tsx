@@ -1,12 +1,14 @@
 "use client";
 import PokemonCard from "@/components/PokemonCard";
 import PokemonFilter from "@/components/PokemonFilter";
+import { Type } from "@/components/PokemonType";
 import { useEffect, useMemo, useState } from "react";
 
 type Pokemon = {
   name: string;
   url: string;
   id: number;
+  types: Type[];
 };
 
 type PokemonData = {
@@ -59,10 +61,12 @@ export default function Home() {
       return pokemonData;
     } else {
       return pokemonData.filter(
-        (pokemon) => pokemon?.types[0].type.name === selectedType
+        (pokemon: Pokemon) => pokemon?.types[0].type.name === selectedType
       );
     }
   }, [selectedType, pokemonData]);
+
+  console.log("pokemonList", pokemonList);
 
   return (
     <main>
