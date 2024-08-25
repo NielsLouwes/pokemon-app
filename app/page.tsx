@@ -2,6 +2,7 @@
 import PokemonCard from "@/components/PokemonCard";
 import PokemonFilter from "@/components/PokemonFilter";
 import { Type } from "@/components/PokemonType";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 type Pokemon = {
@@ -70,8 +71,19 @@ export default function Home() {
 
   return (
     <main>
+      <Image
+        src="/pokedex-logo.svg"
+        width={300}
+        height={100}
+        alt="Pokedex logo"
+        className="mt-10"
+      />
       <form className="my-6 border flex w-[85%] justify-between p-2 rounded-lg">
-        <input className="w-[98%]" type="text" placeholder="enter something" />
+        <input
+          className="w-[98%]"
+          type="text"
+          placeholder="Enter a pokemon name"
+        />
         <button className="bg-amber-500 px-2 rounded-lg ml-8">Search</button>
       </form>
       <div className="mb-6">
