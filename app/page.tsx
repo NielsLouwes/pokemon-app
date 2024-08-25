@@ -23,6 +23,7 @@ export default function Home() {
   const [data, setData] = useState<PokemonData | undefined>();
   const [pokemonData, setPokemonData] = useState([]);
   const [selectedType, setSelectedType] = useState("");
+  const [pokemonInput, setPokemonInput] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -58,16 +59,20 @@ export default function Home() {
   }, []);
 
   const pokemonList = useMemo(() => {
-    if (selectedType === "") {
-      return pokemonData;
-    } else {
-      return pokemonData.filter(
-        (pokemon: Pokemon) => pokemon?.types[0].type.name === selectedType
+    let filteredPokemon = selectedType
+      ? pokemonData.filter(
+          (pokemon: Pokemon) => pokemon?.types[0].type.name === selectedType
+        )
+      : pokemonData;
+
+    if (pokemonInput) {
+      filteredPokemon = filteredPokemon.filter((pokemon: Pokemon) =>
+        pokemon.name.toLowerCase().includes(pokemonInput.toLowerCase())
       );
     }
-  }, [selectedType, pokemonData]);
 
-  console.log("pokemonList", pokemonList);
+    return filteredPokemon;
+  }, [selectedType, pokemonData, pokemonInput]);
 
   return (
     <main>
@@ -80,9 +85,11 @@ export default function Home() {
       />
       <form className="my-6 border flex w-[85%] justify-between p-2 rounded-lg">
         <input
-          className="w-[98%]"
+          className="w-[98%] p-1 bg-transparent"
           type="text"
           placeholder="Enter a pokemon name"
+          value={pokemonInput}
+          onChange={(event) => setPokemonInput(event.target.value)}
         />
         <button className="bg-amber-500 px-2 rounded-lg ml-8">Search</button>
       </form>
